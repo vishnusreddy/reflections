@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.faanghut.reflection.R
 import com.faanghut.reflection.ReflectionApplication
 import com.faanghut.reflection.repository.database.AppDatabase
 import com.faanghut.reflection.databinding.FragmentHomeBinding
@@ -41,21 +43,13 @@ class HomeFragment : Fragment() {
             Log.i("Notes Updated", it.toString())
         }
 
-        var i = 0
+        clickListeners()
 
-        binding.ivBtnDelete.setOnClickListener {
-            homeViewModel.insert(
-                Note(
-                    id = i,
-                    title = "Some Title $i",
-                    body = "Some Body $i",
-                    date = LocalDate.now(),
-                    createdTimestamp = LocalTime.now(),
-                    lastEditedTimestamp = LocalTime.now()
-                )
-            )
+    }
 
-            i++
+    private fun clickListeners() {
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_editNoteFragment)
         }
     }
 
