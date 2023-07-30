@@ -14,6 +14,7 @@ import com.faanghut.reflection.ReflectionApplication
 import com.faanghut.reflection.repository.database.AppDatabase
 import com.faanghut.reflection.databinding.FragmentHomeBinding
 import com.faanghut.reflection.models.Note
+import com.faanghut.reflection.ui.notes.EditNoteFragmentArgs
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -49,7 +50,8 @@ class HomeFragment : Fragment() {
 
     private fun clickListeners() {
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_editNoteFragment)
+            val action = HomeFragmentDirections.actionNavigationHomeToEditNoteFragment(null)
+            findNavController().navigate(action)
         }
     }
 
