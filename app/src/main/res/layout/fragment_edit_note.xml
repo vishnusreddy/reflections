@@ -6,37 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.notes.EditNoteFragment">
 
-    <ImageView
-        android:id="@+id/iv_btn_back"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorOnPrimary"
-        android:padding="16dp"
-        android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorPrimary" />
-
-    <ImageView
-        android:id="@+id/iv_btn_done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:src="@drawable/baseline_done_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorPrimary" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/iv_btn_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:padding="16dp"
-        android:src="@drawable/baseline_delete_24"
-        app:layout_constraintEnd_toStartOf="@id/iv_btn_done"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorPrimary" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Some Title"
+            app:menu="@menu/edit_note_menu"
+            app:navigationIcon="@drawable/baseline_arrow_back_24" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/tv_date"
@@ -46,7 +32,7 @@
         android:layout_marginTop="16dp"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_btn_back"
+        app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
         tools:text="Mon, Aug 16" />
 
     <ImageView
@@ -69,7 +55,7 @@
         android:layout_marginEnd="12dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@id/iv_edit_time"
-        app:layout_constraintTop_toBottomOf="@id/iv_btn_back"
+        app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
         tools:text="12:52 PM" />
 
     <ImageView
@@ -102,7 +88,8 @@
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="24dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
