@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import com.faanghut.reflection.R
 import com.faanghut.reflection.databinding.FragmentEditNoteBinding
 import com.faanghut.reflection.models.Note
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -69,7 +70,7 @@ class EditNoteFragment : Fragment() {
     }
 
     private fun showDatePicker() {
-        val datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Select date")
+        val datePicker = MaterialDatePicker.Builder.datePicker().setTitleText(getString(R.string.select_date))
             .setSelection(lastSelectedDate).build()
         datePicker.show(childFragmentManager, "datePicker")
 
@@ -90,7 +91,7 @@ class EditNoteFragment : Fragment() {
         val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
         val timePicker =
             MaterialTimePicker.Builder().setTimeFormat(clockFormat).setHour(localTime.hour)
-                .setMinute(localTime.minute).setTitleText("Select time").build()
+                .setMinute(localTime.minute).setTitleText(getString(R.string.select_time)).build()
         timePicker.show(childFragmentManager, "timePicker")
 
         timePicker.addOnPositiveButtonClickListener {
@@ -113,7 +114,7 @@ class EditNoteFragment : Fragment() {
             val timeString = "$hour : $minutes"
             binding.tvTime.text = timeString
         } else {
-            // TODO - Hanlde 12 hour time conversion/formatting
+            // TODO - Handle 12 hour time conversion/formatting
         }
     }
 
