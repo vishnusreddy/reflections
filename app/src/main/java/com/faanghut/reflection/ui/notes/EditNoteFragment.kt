@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.faanghut.reflection.R
 import com.faanghut.reflection.databinding.FragmentEditNoteBinding
@@ -53,6 +54,17 @@ class EditNoteFragment : Fragment() {
             setupExistingNoteView()
         } else {
             setupNewNoteView()
+        }
+        setupCommonViews()
+    }
+
+    private fun setupCommonViews() {
+        binding.topAppBar.setNavigationOnClickListener {
+            if (isContentPresent()) {
+                // TODO - Save if changes made and exit
+            } else {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -139,6 +151,10 @@ class EditNoteFragment : Fragment() {
         args.note?.let {
             note = it
         }
+    }
+
+    private fun isContentPresent(): Boolean {
+        return !(binding.etBody.text.isNullOrEmpty() && binding.etTitle.text.isNullOrEmpty())
     }
 
     override fun onDestroyView() {
