@@ -2,14 +2,16 @@ package com.faanghut.reflection.ui.notes
 
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.faanghut.reflection.R
 import com.faanghut.reflection.databinding.FragmentEditNoteBinding
 import com.faanghut.reflection.models.Note
+import com.faanghut.reflection.to12HourFormat
+import com.faanghut.reflection.to24HourFormat
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -107,14 +109,12 @@ class EditNoteFragment : Fragment() {
         val dateString = "$day, $month $date"
         binding.tvDate.text = dateString
     }
+
     private fun setTimeString(localTime: LocalTime) {
         if (is24HourFormat(requireContext())) {
-            val hour = localTime.hour
-            val minutes = localTime.minute
-            val timeString = "$hour : $minutes"
-            binding.tvTime.text = timeString
+            binding.tvTime.text = localTime.to24HourFormat()
         } else {
-            // TODO - Handle 12 hour time conversion/formatting
+            binding.tvTime.text = localTime.to12HourFormat()
         }
     }
 
