@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.faanghut.reflection.R
 import com.faanghut.reflection.databinding.FragmentEditNoteBinding
 import com.faanghut.reflection.models.Note
+import com.faanghut.reflection.showKeyboard
 import com.faanghut.reflection.to12HourFormat
 import com.faanghut.reflection.to24HourFormat
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -66,9 +67,19 @@ class EditNoteFragment : Fragment() {
             showDatePicker()
         }
 
+        binding.tvDate.setOnClickListener {
+            showDatePicker()
+        }
+
         binding.ivEditTime.setOnClickListener {
             showTimePicker()
         }
+
+        binding.tvTime.setOnClickListener {
+            showTimePicker()
+        }
+
+        binding.etBody.showKeyboard()
     }
 
     private fun showDatePicker() {
