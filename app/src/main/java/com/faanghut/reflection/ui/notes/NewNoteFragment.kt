@@ -17,8 +17,8 @@ import com.faanghut.reflection.models.Note
 import com.faanghut.reflection.utils.showKeyboard
 import com.faanghut.reflection.utils.to12HourFormat
 import com.faanghut.reflection.utils.to24HourFormat
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import java.time.Instant
@@ -41,11 +41,7 @@ class NewNoteFragment : Fragment() {
 
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if (isContentPresent()) {
-                storeContentToDBAndPopBack()
-            } else {
-                findNavController().popBackStack()
-            }
+            exitGracefully()
         }
     }
 
@@ -89,10 +85,31 @@ class NewNoteFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.topAppBar.setNavigationOnClickListener {
-            if (isContentPresent()) {
-                storeContentToDBAndPopBack()
-            } else {
-                findNavController().popBackStack()
+            exitGracefully()
+        }
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.deleteNote -> {
+                    if (isContentPresent()) {
+                        showConfirmationDialog()
+                    } else {
+                        findNavController().popBackStack()
+                    }
+                    true
+                }
+
+                R.id.saveNote -> {
+                    if (isContentPresent()) {
+                        storeContentToDBAndPopBack()
+                    } else {
+                        Toast.makeText(requireContext(), "Page not created ☹️", Toast.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                    }
+                    true
+                }
+
+                else -> false
             }
         }
 
@@ -110,6 +127,28 @@ class NewNoteFragment : Fragment() {
 
         binding.tvTime.setOnClickListener {
             showTimePicker()
+        }
+    }
+
+    private fun showConfirmationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.are_you_sure))
+            .setMessage("You are about to delete this page. This action is irreversible, please proceed with caution.")
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setNegativeButton(resources.getString(R.string.yes_delete)) { dialog, _ ->
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+            .show()
+    }
+
+    private fun exitGracefully() {
+        if (isContentPresent()) {
+            storeContentToDBAndPopBack()
+        } else {
+            findNavController().popBackStack()
         }
     }
 
