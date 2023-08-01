@@ -1,4 +1,4 @@
-package com.faanghut.reflection
+package com.faanghut.reflection.utils
 
 import android.annotation.SuppressLint
 import android.content.Context.INPUT_METHOD_SERVICE

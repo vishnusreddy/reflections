@@ -5,15 +5,19 @@ import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.faanghut.reflection.R
-import com.faanghut.reflection.databinding.FragmentEditNoteBinding
+import com.faanghut.reflection.ReflectionApplication
+import com.faanghut.reflection.databinding.FragmentNewNoteBinding
 import com.faanghut.reflection.models.Note
-import com.faanghut.reflection.showKeyboard
-import com.faanghut.reflection.to12HourFormat
-import com.faanghut.reflection.to24HourFormat
+import com.faanghut.reflection.utils.showKeyboard
+import com.faanghut.reflection.utils.to12HourFormat
+import com.faanghut.reflection.utils.to24HourFormat
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -22,58 +26,75 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 
-class EditNoteFragment : Fragment() {
+class NewNoteFragment : Fragment() {
 
-    private var _binding: FragmentEditNoteBinding? = null
+    private var _binding: FragmentNewNoteBinding? = null
     private val binding get() = _binding!!
 
-    private val args: EditNoteFragmentArgs by navArgs()
-
-    private var note: Note? = null
+    private val viewModel: NewNoteViewModel by viewModels {
+        NewNoteViewModelFactory((activity?.application as ReflectionApplication).noteRepository)
+    }
 
     private lateinit var localDate: LocalDate
     private lateinit var localTime: LocalTime
-
     private var lastSelectedDate: Long = MaterialDatePicker.todayInUtcMilliseconds()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentEditNoteBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        init()
-        setupViews()
-    }
-
-    private fun setupViews() {
-        if (note != null) {
-            setupExistingNoteView()
-        } else {
-            setupNewNoteView()
-        }
-        setupCommonViews()
-    }
-
-    private fun setupCommonViews() {
-        binding.topAppBar.setNavigationOnClickListener {
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
             if (isContentPresent()) {
-                // TODO - Save if changes made and exit
+                storeContentToDBAndPopBack()
             } else {
                 findNavController().popBackStack()
             }
         }
     }
 
-    private fun setupNewNoteView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentNewNoteBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViews()
+        setupClickListeners()
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.noteInsertedToDb.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(requireContext(), "Note Created", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun setupViews() {
         localDate = LocalDate.now()
         localTime = LocalTime.now()
 
         setDateString(localDate)
         setTimeString(localTime)
+
+        binding.etBody.showKeyboard()
+    }
+
+    private fun setupClickListeners() {
+        binding.topAppBar.setNavigationOnClickListener {
+            if (isContentPresent()) {
+                storeContentToDBAndPopBack()
+            } else {
+                findNavController().popBackStack()
+            }
+        }
 
         binding.ivEditDate.setOnClickListener {
             showDatePicker()
@@ -90,8 +111,19 @@ class EditNoteFragment : Fragment() {
         binding.tvTime.setOnClickListener {
             showTimePicker()
         }
+    }
 
-        binding.etBody.showKeyboard()
+    private fun storeContentToDBAndPopBack() {
+        val title = binding.etTitle.text.toString()
+        val body = binding.etTitle.text.toString()
+        val note = Note(
+            title = title,
+            body = body,
+            date = localDate,
+            createdTimestamp = localTime,
+            lastEditedTimestamp = localTime,
+        )
+        viewModel.insert(note)
     }
 
     private fun showDatePicker() {
@@ -138,18 +170,6 @@ class EditNoteFragment : Fragment() {
             binding.tvTime.text = localTime.to24HourFormat()
         } else {
             binding.tvTime.text = localTime.to12HourFormat()
-        }
-    }
-
-    private fun setupExistingNoteView() {
-        // TODO - View Existing Note
-        // TODO - If not a good idea, let's create another fragment for it if needed
-        // Seeing the size of this, maybe its a good idea to keep this fragment just for editing
-    }
-
-    private fun init() {
-        args.note?.let {
-            note = it
         }
     }
 

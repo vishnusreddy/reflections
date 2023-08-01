@@ -7,16 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.faanghut.reflection.R
 import com.faanghut.reflection.ReflectionApplication
-import com.faanghut.reflection.repository.database.AppDatabase
 import com.faanghut.reflection.databinding.FragmentHomeBinding
-import com.faanghut.reflection.models.Note
-import com.faanghut.reflection.ui.notes.EditNoteFragmentArgs
-import java.time.LocalDate
-import java.time.LocalTime
 
 class HomeFragment : Fragment() {
 
@@ -50,7 +43,7 @@ class HomeFragment : Fragment() {
 
     private fun clickListeners() {
         binding.floatingActionButton.setOnClickListener {
-            val action = HomeFragmentDirections.actionNavigationHomeToEditNoteFragment(null)
+            val action = HomeFragmentDirections.actionNavigationHomeToNewNoteFragment()
             findNavController().navigate(action)
         }
     }

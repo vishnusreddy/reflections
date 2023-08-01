@@ -12,7 +12,7 @@ import java.time.LocalTime
 @Entity
 @Keep
 data class Note(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "title") val title: String?,
     @ColumnInfo(name = "body") val body: String?,
     @ColumnInfo(name = "date") val date: LocalDate,

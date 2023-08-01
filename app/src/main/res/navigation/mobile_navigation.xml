@@ -11,8 +11,8 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_navigation_home_to_editNoteFragment"
-            app:destination="@id/editNoteFragment" />
+            android:id="@+id/action_navigation_home_to_newNoteFragment"
+            app:destination="@id/newNoteFragment" />
     </fragment>
 
     <fragment
@@ -28,14 +28,9 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/editNoteFragment"
-        android:name="com.faanghut.reflection.ui.notes.EditNoteFragment"
+        android:id="@+id/newNoteFragment"
+        android:name="com.faanghut.reflection.ui.notes.NewNoteFragment"
         android:label="fragment_edit_note"
-        tools:layout="@layout/fragment_edit_note" >
-        <argument
-            android:name="note"
-            app:argType="com.faanghut.reflection.models.Note"
-            app:nullable="true"
-            android:defaultValue="@null" />
+        tools:layout="@layout/fragment_new_note" >
     </fragment>
 </navigation>
