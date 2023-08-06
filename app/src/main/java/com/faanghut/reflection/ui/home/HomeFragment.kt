@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.faanghut.reflection.ReflectionApplication
 import com.faanghut.reflection.databinding.FragmentHomeBinding
+import com.faanghut.reflection.ui.home.adapters.PageDateAdapter
 
 class HomeFragment : Fragment() {
 
@@ -19,6 +21,8 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory((activity?.application as ReflectionApplication).pageRepository)
     }
+
+    private val pageDatesAdapter = PageDateAdapter()
 
 
     override fun onCreateView(
@@ -34,7 +38,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel.allPageWithDates.observe(viewLifecycleOwner) {
-            Log.i("Notes Updated", it.toString())
+            binding.rvPageDates.layoutManager = LinearLayoutManager(context)
+            binding.rvPageDates.adapter = pageDatesAdapter
+            pageDatesAdapter.updatePageDateWithPages(it)
         }
 
         clickListeners()

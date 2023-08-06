@@ -9,5 +9,5 @@ data class PageDateWithPages(
         parentColumn = "date",
         entityColumn = "date"
     )
-    val notes: List<Page>
+    val pages: List<Page>
 )

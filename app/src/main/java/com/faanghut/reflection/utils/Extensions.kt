@@ -9,9 +9,9 @@ import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalTime
 
-@SuppressLint("SimpleDateFormat")
 fun LocalTime.to12HourFormat(): String {
     val timeString = "$hour:$minute"
     val sdf24 = SimpleDateFormat("HH:mm")
@@ -41,4 +41,11 @@ fun View.getActivity(): AppCompatActivity?{
         context = context.baseContext
     }
     return null
+}
+
+fun LocalDate.getDateString(): String {
+    val date = this.dayOfMonth.toString()
+    val day = this.dayOfWeek.toString().lowercase().take(3).replaceFirstChar(Char::uppercase)
+    val month = this.month.toString().lowercase().take(3).replaceFirstChar(Char::uppercase)
+    return "$day, $month $date"
 }
