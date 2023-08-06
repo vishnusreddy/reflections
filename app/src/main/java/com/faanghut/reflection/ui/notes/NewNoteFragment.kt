@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.faanghut.reflection.R
 import com.faanghut.reflection.ReflectionApplication
 import com.faanghut.reflection.databinding.FragmentNewNoteBinding
-import com.faanghut.reflection.models.Note
+import com.faanghut.reflection.models.Page
 import com.faanghut.reflection.utils.showKeyboard
 import com.faanghut.reflection.utils.to12HourFormat
 import com.faanghut.reflection.utils.to24HourFormat
@@ -32,7 +32,7 @@ class NewNoteFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: NewNoteViewModel by viewModels {
-        NewNoteViewModelFactory((activity?.application as ReflectionApplication).noteRepository)
+        NewNoteViewModelFactory((activity?.application as ReflectionApplication).pageRepository)
     }
 
     private lateinit var localDate: LocalDate
@@ -65,7 +65,7 @@ class NewNoteFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.noteInsertedToDb.observe(viewLifecycleOwner) {
+        viewModel.pageInsertedToDB.observe(viewLifecycleOwner) {
             if (it) {
                 Toast.makeText(requireContext(), "Note Created", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
@@ -155,7 +155,7 @@ class NewNoteFragment : Fragment() {
     private fun storeContentToDBAndPopBack() {
         val title = binding.etTitle.text.toString()
         val body = binding.etTitle.text.toString()
-        val note = Note(
+        val note = Page(
             title = title,
             body = body,
             date = localDate,

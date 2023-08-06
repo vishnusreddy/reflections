@@ -17,7 +17,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory((activity?.application as ReflectionApplication).noteRepository)
+        HomeViewModelFactory((activity?.application as ReflectionApplication).pageRepository)
     }
 
 
@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.allNotes.observe(viewLifecycleOwner) {
+        homeViewModel.allPageWithDates.observe(viewLifecycleOwner) {
             Log.i("Notes Updated", it.toString())
         }
 
