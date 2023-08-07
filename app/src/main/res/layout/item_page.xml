@@ -31,10 +31,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="3"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
-        tools:text="This is some body content that I plan to add here. What happens if I add more than tree lines? Le'ts test it out. and check? What do you say?Post three lines, we will restrict it to a max of three lines only. "/>
+        tools:text="This is some body content that I plan to add here. What happens if I add more than tree lines? Le'ts test it out. and check? What do you say?Post three lines, we will restrict it to a max of three lines only. " />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
