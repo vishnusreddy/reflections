@@ -18,7 +18,7 @@ interface PageDao {
     suspend fun insert(vararg page: Page)
 
     @Transaction
-    @Query("SELECT * FROM PageDate")
+    @Query("SELECT * FROM PageDate ORDER BY date DESC")
     fun getAllPageDatesWithPages(): Flow<List<PageDateWithPages>>
 
     @Transaction
