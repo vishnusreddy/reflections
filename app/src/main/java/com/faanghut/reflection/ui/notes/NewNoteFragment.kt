@@ -154,7 +154,7 @@ class NewNoteFragment : Fragment() {
 
     private fun storeContentToDBAndPopBack() {
         val title = binding.etTitle.text.toString()
-        val body = binding.etTitle.text.toString()
+        val body = binding.etBody.text.toString()
         val note = Page(
             title = title,
             body = body,
