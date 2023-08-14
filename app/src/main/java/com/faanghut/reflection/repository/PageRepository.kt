@@ -16,4 +16,10 @@ class PageRepository(private val pageDao: PageDao) {
         pageDao.insertPageWithDate(page)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(page: Page) {
+        pageDao.deletePage(page)
+    }
+
 }
