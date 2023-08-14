@@ -1,4 +1,4 @@
-package com.faanghut.reflection.ui.notes
+package com.faanghut.reflection.ui.notes.newNote
 
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
@@ -103,7 +103,8 @@ class NewNoteFragment : Fragment() {
                     if (isContentPresent()) {
                         storeContentToDBAndPopBack()
                     } else {
-                        Toast.makeText(requireContext(), "Page not created ☹️", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Page not created ☹️", Toast.LENGTH_SHORT)
+                            .show()
                         findNavController().popBackStack()
                     }
                     true
@@ -131,17 +132,14 @@ class NewNoteFragment : Fragment() {
     }
 
     private fun showConfirmationDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.are_you_sure))
+        MaterialAlertDialogBuilder(requireContext()).setTitle(getString(R.string.are_you_sure))
             .setMessage("You are about to delete this page. This action is irreversible, please proceed with caution.")
             .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
-            }
-            .setNegativeButton(resources.getString(R.string.yes_delete)) { dialog, _ ->
+            }.setNegativeButton(resources.getString(R.string.yes_delete)) { dialog, _ ->
                 dialog.dismiss()
                 findNavController().popBackStack()
-            }
-            .show()
+            }.show()
     }
 
     private fun exitGracefully() {
@@ -166,15 +164,15 @@ class NewNoteFragment : Fragment() {
     }
 
     private fun showDatePicker() {
-        val datePicker = MaterialDatePicker.Builder.datePicker().setTitleText(getString(R.string.select_date))
-            .setSelection(lastSelectedDate).build()
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker().setTitleText(getString(R.string.select_date))
+                .setSelection(lastSelectedDate).build()
         datePicker.show(childFragmentManager, "datePicker")
 
         datePicker.addOnPositiveButtonClickListener {
             val selectedDate = datePicker.selection
             selectedDate?.let {
-                val instant = Instant.ofEpochMilli(selectedDate)
-                    .atZone(ZoneId.systemDefault())
+                val instant = Instant.ofEpochMilli(selectedDate).atZone(ZoneId.systemDefault())
                 lastSelectedDate = selectedDate
                 localDate = instant.toLocalDate()
                 setDateString(localDate)
@@ -198,7 +196,8 @@ class NewNoteFragment : Fragment() {
 
     private fun setDateString(localDate: LocalDate) {
         val date = localDate.dayOfMonth.toString()
-        val day = localDate.dayOfWeek.toString().lowercase().take(3).replaceFirstChar(Char::uppercase)
+        val day =
+            localDate.dayOfWeek.toString().lowercase().take(3).replaceFirstChar(Char::uppercase)
         val month = localDate.month.toString().lowercase().take(3).replaceFirstChar(Char::uppercase)
         val dateString = "$day, $month $date"
         binding.tvDate.text = dateString

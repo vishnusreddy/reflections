@@ -9,7 +9,9 @@ import com.faanghut.reflection.databinding.ItemPageBinding
 import com.faanghut.reflection.models.Page
 import com.faanghut.reflection.utils.to12HourFormat
 
-class PageAdapter : ListAdapter<Page, PageAdapter.ViewH>(PageDiffCallback()) {
+class PageAdapter(
+    val onItemClickAction: (Page) -> Unit = {},
+) : ListAdapter<Page, PageAdapter.ViewH>(PageDiffCallback()) {
 
     var pages: List<Page> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageAdapter.ViewH {
@@ -27,13 +29,19 @@ class PageAdapter : ListAdapter<Page, PageAdapter.ViewH>(PageDiffCallback()) {
         return pages.size
     }
 
-    inner class ViewH(val binding: ItemPageBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewH(private val binding: ItemPageBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             binding.apply {
                 val page = pages[position]
                 tvTime.text = page.lastEditedTimestamp.to12HourFormat()
                 tvTitle.text = page.title
                 tvBody.text = page.body
+            }
+
+            binding.root.setOnClickListener {
+                val page = pages[position]
+                onItemClickAction(page)
             }
         }
     }

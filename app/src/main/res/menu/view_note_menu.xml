@@ -9,9 +9,8 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/saveNote"
-        android:icon="@drawable/baseline_done_24"
-        android:title="@string/title_done_save"
+        android:id="@+id/editNote"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="@string/title_edit"
         app:showAsAction="always" />
-
 </menu>

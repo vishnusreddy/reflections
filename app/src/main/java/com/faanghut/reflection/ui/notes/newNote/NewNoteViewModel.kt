@@ -1,4 +1,4 @@
-package com.faanghut.reflection.ui.notes
+package com.faanghut.reflection.ui.notes.newNote
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

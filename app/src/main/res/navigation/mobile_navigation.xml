@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_newNoteFragment"
             app:destination="@id/newNoteFragment" />
+        <action
+            android:id="@+id/action_fragmentHome_to_viewNoteFragment"
+            app:destination="@id/viewNoteFragment" />
     </fragment>
 
     <fragment
@@ -29,8 +32,17 @@
 
     <fragment
         android:id="@+id/newNoteFragment"
-        android:name="com.faanghut.reflection.ui.notes.NewNoteFragment"
-        android:label="fragment_edit_note"
-        tools:layout="@layout/fragment_new_note" >
+        android:name="com.faanghut.reflection.ui.notes.newNote.NewNoteFragment"
+        android:label="Add New Note"
+        tools:layout="@layout/fragment_new_note" />
+
+    <fragment
+        android:id="@+id/viewNoteFragment"
+        android:name="com.faanghut.reflection.ui.notes.viewNote.ViewNoteFragment"
+        android:label="View Note"
+        tools:layout="@layout/fragment_view_note" >
+        <argument
+            android:name="page"
+            app:argType="com.faanghut.reflection.models.Page" />
     </fragment>
 </navigation>

@@ -37,6 +37,7 @@ interface PageDao {
     @Insert
     suspend fun insertPageDate(pageDate: PageDate)
 
+    // This would be required later on if needed for querying by a single date.
     /*@Query("SELECT * FROM note ORDER BY id DESC")
     fun getAll(): Flow<List<Note>>
 

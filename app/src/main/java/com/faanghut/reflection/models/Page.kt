@@ -31,4 +31,8 @@ data class Page(
     @ColumnInfo(name = "date") val date: LocalDate,
     @ColumnInfo(name = "created_timestamp") val createdTimestamp: LocalTime,
     @ColumnInfo(name = "last_edited_timestamp") val lastEditedTimestamp: LocalTime
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 1L
+    }
+}

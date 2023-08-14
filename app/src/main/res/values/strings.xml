@@ -15,5 +15,6 @@
     <string name="yes">Yes</string>
     <string name="yes_delete">Yes, Delete</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="title_edit">Edit</string>
 
 </resources>

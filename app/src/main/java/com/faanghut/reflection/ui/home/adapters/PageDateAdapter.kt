@@ -12,7 +12,9 @@ import com.faanghut.reflection.models.Page
 import com.faanghut.reflection.models.PageDateWithPages
 import com.faanghut.reflection.utils.getDateString
 
-class PageDateAdapter: ListAdapter<PageDateWithPages, PageDateAdapter.ViewH>(PageDateWithPagesDiffCallback()) {
+class PageDateAdapter(
+    val onItemClickAction: (Page) -> Unit = {},
+): ListAdapter<PageDateWithPages, PageDateAdapter.ViewH>(PageDateWithPagesDiffCallback()) {
 
     var pageDateWithPagesList: List<PageDateWithPages> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageDateAdapter.ViewH {
@@ -41,14 +43,29 @@ class PageDateAdapter: ListAdapter<PageDateWithPages, PageDateAdapter.ViewH>(Pag
                 val pageDateWithPage = pageDateWithPagesList[position]
 
                 tvDate.text = pageDateWithPage.pageDate.date.getDateString()
-                val pageAdapter = PageAdapter()
+                val pageAdapter = PageAdapter(
+                    onItemClickAction = ::openSelectedPage
+                )
                 rvPages.apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = pageAdapter
                 }
                 pageAdapter.updatePages(pageDateWithPage.pages)
+                if (pageDateWithPage.pages.size == 1) {
+                    binding.root.setOnClickListener {
+                        openSelectedPage(pageDateWithPage.pages[0])
+                    }
+                } else {
+                    binding.root.setOnClickListener {
+                        // Do Nothing Will be handled on clicking page
+                    }
+                }
             }
         }
+    }
+
+    private fun openSelectedPage(page: Page) {
+        onItemClickAction(page)
     }
 }
 
