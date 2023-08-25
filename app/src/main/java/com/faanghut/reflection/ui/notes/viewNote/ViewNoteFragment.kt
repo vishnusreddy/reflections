@@ -71,7 +71,11 @@ class ViewNoteFragment : Fragment() {
                 }
 
                 R.id.editNote -> {
-                    findNavController().navigate(ViewNoteFragmentDirections.actionViewNoteFragmentToEditNoteFragment(page))
+                    findNavController().navigate(
+                        ViewNoteFragmentDirections.actionViewNoteFragmentToEditNoteFragment(
+                            page
+                        )
+                    )
                     true
                 }
 
