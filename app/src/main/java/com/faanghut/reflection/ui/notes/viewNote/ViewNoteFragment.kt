@@ -71,8 +71,7 @@ class ViewNoteFragment : Fragment() {
                 }
 
                 R.id.editNote -> {
-                    // TODO - Handle edit click.
-                    // Check if we should open the exisintg new note fragment of create a new one.
+                    findNavController().navigate(ViewNoteFragmentDirections.actionViewNoteFragmentToEditNoteFragment(page))
                     true
                 }
 
